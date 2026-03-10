@@ -1,15 +1,19 @@
 using Microsoft.EntityFrameworkCore;
 using vlf_4rum.Data;
+using VlfForum.Extensions;
+using VlfForum.Middleware;
+using VlfForum.Services.Implementations;
+using VlfForum.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    )
-);
+builder.Services.AddDatabase(builder.Configuration);
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
@@ -21,6 +25,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseGlobalException();
+
 app.UseRouting();
 
 app.UseAuthorization();
