@@ -1,11 +1,23 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using vlf_4rum.Models;
+using VlfForum.Controllers;
+using VlfForum.Services.Interfaces;
 
 namespace vlf_4rum.Controllers;
 
-public class HomeController : Controller
+public class HomeController : BaseController
 {
+    public HomeController(ICurrentUserService currentUser) : base(currentUser)
+    {
+    }
+    public IActionResult Test()
+    {
+        var userId = CurrentUser.UserId;
+
+        return View(userId);
+    }
+
     public IActionResult Index()
     {
         return Content("Hello World from ASP.NET Core MVC running in Docker!");
