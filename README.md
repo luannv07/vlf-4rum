@@ -95,7 +95,7 @@ dotnet run
 Sau đó truy cập:
 
 ```
-http://localhost:5000
+http://localhost:5070
 ```
 
 ---
