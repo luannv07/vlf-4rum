@@ -1,25 +1,162 @@
-﻿@model ErrorViewModel
+@model ErrorViewModel
 @{
-    ViewData["Title"] = "Error";
+    ViewData["Title"] = "Lỗi";
+    Layout = "_Layout";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
+<style>
+    .error-page {
+        min-height: calc(100vh - 56px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 24px;
+        position: relative;
+        overflow: hidden;
+    }
 
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
-}
+    /* Background grid */
+    .error-page::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(var(--border) 1px, transparent 1px),
+            linear-gradient(90deg, var(--border) 1px, transparent 1px);
+        background-size: 48px 48px;
+        opacity: .35;
+        pointer-events: none;
+    }
 
-<h3>Development Mode</h3>
-<p>
-    Swapping to <strong>Development</strong> environment will display more detailed information about the error that occurred.
-</p>
-<p>
-    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
-    It can result in displaying sensitive information from exceptions to end users.
-    For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
-    and restarting the app.
-</p>
+    /* Glow blob */
+    .error-page::after {
+        content: '';
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        height: 300px;
+        background: radial-gradient(ellipse, rgba(218,54,51,.12) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .error-card {
+        position: relative;
+        z-index: 1;
+        max-width: 520px;
+        width: 100%;
+        text-align: center;
+        animation: fadeUp .5s ease both;
+    }
+
+    @@keyframes fadeUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .error-code {
+        font-family: var(--font-display);
+        font-size: clamp(96px, 18vw, 140px);
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -4px;
+        background: linear-gradient(135deg, #f85149 0%, #da3633 50%, #9e2724 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 8px;
+        animation: fadeUp .5s .1s ease both;
+    }
+
+    .error-title {
+        font-family: var(--font-display);
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+        animation: fadeUp .5s .2s ease both;
+    }
+
+    .error-desc {
+        color: var(--text-muted);
+        font-size: 14px;
+        line-height: 1.7;
+        margin-bottom: 28px;
+        animation: fadeUp .5s .25s ease both;
+    }
+
+    .error-divider {
+        width: 48px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent-red-dk), var(--accent-red));
+        border-radius: 99px;
+        margin: 0 auto 28px;
+        animation: fadeUp .5s .3s ease both;
+    }
+
+    .request-id-box {
+        background: rgba(218,54,51,.08);
+        border: 1px solid rgba(218,54,51,.25);
+        border-radius: var(--radius-md);
+        padding: 10px 16px;
+        margin-bottom: 24px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--text-muted);
+        animation: fadeUp .5s .35s ease both;
+    }
+
+    .request-id-box code {
+        font-family: 'Courier New', monospace;
+        color: var(--accent-red);
+        font-size: 11px;
+        word-break: break-all;
+    }
+
+    .error-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        flex-wrap: wrap;
+        animation: fadeUp .5s .4s ease both;
+    }
+</style>
+
+<div class="error-page">
+    <div class="error-card">
+
+        <div class="error-code">500</div>
+
+        <h1 class="error-title">Đã có lỗi xảy ra</h1>
+
+        <div class="error-divider"></div>
+
+        <p class="error-desc">
+            Máy chủ gặp sự cố khi xử lý yêu cầu của bạn.<br />
+            Vui lòng thử lại sau hoặc liên hệ quản trị viên.
+        </p>
+
+        @if (Model?.ShowRequestId == true)
+        {
+            <div class="request-id-box">
+                <span style="color:var(--accent-red);">⚠</span>
+                <span>Request ID:</span>
+                <code>@Model.RequestId</code>
+            </div>
+            <br />
+        }
+
+        <div class="error-actions">
+            <a href="/" class="btn btn-primary">
+                ← Về trang chủ
+            </a>
+            <button class="btn btn-ghost" onclick="history.back()">
+                Quay lại
+            </button>
+        </div>
+
+    </div>
+</div>

@@ -1,8 +1,41 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Trang chủ";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container page-content">
+
+    @* ── Placeholder: thay bằng real feed khi có PostController ── *@
+    <div style="display:flex;align-items:center;justify-content:center;min-height:60vh;flex-direction:column;gap:16px;">
+
+        <div style="font-size:56px;">⬡</div>
+
+        <h1 class="heading heading-lg" style="color:var(--accent-blue);">VLF-4RUM</h1>
+
+        <p class="text-muted" style="text-align:center;max-width:400px;line-height:1.7;">
+            Base project đã sẵn sàng.<br />
+            Bắt đầu xây dựng các tính năng tại đây.
+        </p>
+
+        @* Demo các component base *@
+        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px;">
+            <button class="btn btn-primary" onclick="Toast.show('Chào mừng đến VLF-4RUM!', 'success')">
+                ✅ Toast Success
+            </button>
+            <button class="btn btn-ghost" onclick="Toast.show('Đây là thông báo.', 'info')">
+                ℹ️ Toast Info
+            </button>
+            <button class="btn btn-danger"
+                    onclick="Confirm.ask('Bạn có chắc muốn xoá không?', () => Toast.show('Đã xoá!', 'danger'))">
+                🗑️ Confirm Dialog
+            </button>
+        </div>
+
+        @* Demo vote buttons *@
+        <div data-vote-group="demo-post" style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+            <button class="vote-btn vote-up" data-vote="up">▲ 42</button>
+            <button class="vote-btn vote-down" data-vote="down">▼</button>
+        </div>
+        <a asp-controller="Home" asp-action="Error">Error Page</a>
+    </div>
+
 </div>

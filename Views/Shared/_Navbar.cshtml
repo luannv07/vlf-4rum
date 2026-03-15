@@ -1,0 +1,52 @@
+@* _Navbar.cshtml
+   Partial tái sử dụng toàn app — không cần @model
+   Sau khi có Auth: thay phần avatar bằng User.Identity
+*@
+<nav class="navbar">
+    <div class="container navbar-inner">
+
+        @* Logo *@
+        <div style="display:flex;align-items:center;gap:20px;">
+            <a href="/" class="logo">⬡ VLF</a>
+
+            @* Nav links — ẩn trên mobile *@
+            <div style="display:flex;gap:2px;" class="hide-mobile">
+                <a href="/" class="btn btn-ghost btn-sm">Tất cả</a>
+                <a href="#" class="btn btn-ghost btn-sm">Công nghệ</a>
+                <a href="#" class="btn btn-ghost btn-sm">Khoa học</a>
+                <a href="#" class="btn btn-ghost btn-sm">Gaming</a>
+                <a href="#" class="btn btn-ghost btn-sm">Thiết kế</a>
+            </div>
+        </div>
+
+        @* Right side *@
+        <div style="display:flex;align-items:center;gap:8px;">
+
+            @* Search — ẩn trên mobile *@
+            <div style="position:relative;" class="hide-mobile">
+                <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-subtle);">🔍</span>
+                <input class="input"
+                       placeholder="Tìm kiếm..."
+                       style="width:200px;padding-left:32px;padding-top:6px;padding-bottom:6px;font-size:13px;" />
+            </div>
+
+            @* Notifications *@
+            <a href="#" class="btn btn-ghost btn-sm" style="font-size:16px;padding:6px 8px;">🔔</a>
+
+            @* New post *@
+            <a href="#" class="btn btn-primary btn-sm">+ Đăng bài</a>
+
+            @* Avatar / Auth
+               TODO: sau khi có Identity, bọc trong @if (User.Identity?.IsAuthenticated == true)
+            *@
+            <div class="avatar-wrapper">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=vlf"
+                     class="avatar avatar-md avatar-bordered"
+                     alt="avatar"
+                     style="cursor:pointer;" />
+                <span class="online-dot"></span>
+            </div>
+
+        </div>
+    </div>
+</nav>

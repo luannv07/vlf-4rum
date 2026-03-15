@@ -20,7 +20,7 @@ public class HomeController : BaseController
 
     public IActionResult Index()
     {
-        return Content("Hello World from ASP.NET Core MVC running in Docker!");
+        return View();
     }
 
     public IActionResult Privacy()
