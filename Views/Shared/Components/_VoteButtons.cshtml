@@ -1,0 +1,43 @@
+@*
+    _VoteButtons.cshtml — Upvote / Downvote
+    ──────────────────────────────────────────
+    Props (ViewData):
+      GroupId*    string  — unique id (vd: "post-5", "comment-12")
+      Score*      int     — tổng điểm
+      UserVote    string  — "up"|"down"|""  (vote hiện tại của user)
+      Direction   string  — vertical|horizontal  (default: vertical)
+*@
+@{
+    var groupId   = ViewData["GroupId"]?.ToString() ?? "item";
+    var score     = ViewData["Score"] != null ? Convert.ToInt32(ViewData["Score"]) : 0;
+    var userVote  = ViewData["UserVote"]?.ToString() ?? "";
+    var direction = ViewData["Direction"]?.ToString() ?? "vertical";
+
+    var upActive   = userVote == "up"   ? "active" : "";
+    var downActive = userVote == "down" ? "active" : "";
+    var flexDir    = direction == "horizontal" ? "row" : "column";
+
+    string scoreColor;
+    if (score > 0)      scoreColor = "var(--accent-green)";
+    else if (score < 0) scoreColor = "var(--accent-red)";
+    else                scoreColor = "var(--text-muted)";
+}
+
+<div data-vote-group="@groupId"
+     style="display:flex;flex-direction:@flexDir;align-items:center;gap:4px;">
+
+    <button class="vote-btn vote-up @upActive"
+            data-vote="up"
+            type="button"
+            aria-label="Upvote">▲</button>
+
+    <span style="font-weight:700;font-size:14px;color:@scoreColor;min-width:24px;text-align:center;line-height:1;">
+        @score
+    </span>
+
+    <button class="vote-btn vote-down @downActive"
+            data-vote="down"
+            type="button"
+            aria-label="Downvote">▼</button>
+
+</div>

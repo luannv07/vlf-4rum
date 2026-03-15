@@ -1,0 +1,26 @@
+@*
+    _Spinner.cshtml — Loading spinner
+    ──────────────────────────────────────────
+    Props (ViewData):
+      Size    string  — sm|""|lg  (default: "")
+      Text    string  — text bên cạnh
+      Center  bool    — căn giữa container
+*@
+@{
+    var size   = ViewData["Size"]?.ToString() ?? "";
+    var text   = ViewData["Text"]?.ToString();
+    var center = ViewData["Center"] is true;
+
+    var spinnerClass = string.IsNullOrEmpty(size) ? "spinner" : $"spinner spinner-{size}";
+    var wrapStyle    = center
+        ? "display:flex;align-items:center;justify-content:center;gap:10px;padding:24px;"
+        : "display:inline-flex;align-items:center;gap:8px;";
+}
+
+<div style="@wrapStyle">
+    <span class="@spinnerClass"></span>
+    @if (!string.IsNullOrEmpty(text))
+    {
+        <span class="text-muted" style="font-size:13px;">@text</span>
+    }
+</div>

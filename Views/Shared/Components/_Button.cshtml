@@ -1,0 +1,59 @@
+@*
+    _Button.cshtml — Button / Link button
+    ──────────────────────────────────────────
+    Props (ViewData):
+      Text*    string  — label
+      Type     string  — submit|button|reset  (default: button)
+      Variant  string  — primary|ghost|danger|success|warning|outline  (default: primary)
+      Size     string  — sm|lg|""  (default: "")
+      Block    bool    — full width
+      Icon     string  — emoji trước text
+      Loading  bool    — spinner + disable
+      Href     string  — render <a> thay vì <button>
+      Id       string  — html id attribute
+*@
+@{
+    var text    = ViewData["Text"]?.ToString() ?? "Submit";
+    var type    = ViewData["Type"]?.ToString() ?? "button";
+    var variant = ViewData["Variant"]?.ToString() ?? "primary";
+    var size    = ViewData["Size"]?.ToString() ?? "";
+    var block   = ViewData["Block"] is true;
+    var icon    = ViewData["Icon"]?.ToString();
+    var loading = ViewData["Loading"] is true;
+    var href    = ViewData["Href"]?.ToString();
+    var id      = ViewData["Id"]?.ToString();
+
+    var sizeClass = string.IsNullOrEmpty(size) ? "" : $" btn-{size}";
+    var blockClass = block ? " btn-block" : "";
+    var classes   = $"btn btn-{variant}{sizeClass}{blockClass}";
+}
+
+@if (!string.IsNullOrEmpty(href))
+{
+    <a href="@href"
+       class="@classes"
+       id="@id">
+        @if (!string.IsNullOrEmpty(icon))
+        {
+            <span>@icon</span>
+        }
+        @text
+    </a>
+}
+else
+{
+    <button type="@type"
+            class="@classes"
+            id="@id"
+            disabled="@(loading ? "disabled" : null)">
+        @if (loading)
+        {
+            <span class="spinner spinner-sm"></span>
+        }
+        else if (!string.IsNullOrEmpty(icon))
+        {
+            <span>@icon</span>
+        }
+        @text
+    </button>
+}
