@@ -12,8 +12,6 @@
        <button class="vote-btn vote-down" data-vote="down">▼</button>
      </div>
 ══════════════════════════════════════════ */
-console.log("loaded");
-
 const Vote = {
     init() {
         document.querySelectorAll('[data-vote]').forEach(btn => {
@@ -155,6 +153,112 @@ const Format = {
 /* ══════════════════════════════════════════
    INIT
 ══════════════════════════════════════════ */
-window.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
     Vote.init();
+});
+
+/* ══════════════════════════════════════════
+   MODAL
+   Usage:
+     Modal.open('my-modal')
+     Modal.close('my-modal')
+     Modal.close()   ← đóng tất cả
+══════════════════════════════════════════ */
+const Modal = {
+    open(id) {
+        const el = document.getElementById(id);
+        if (!el) return console.warn(`Modal #${id} not found`);
+        el.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    },
+
+    close(id = null) {
+        if (id) {
+            document.getElementById(id)?.classList.remove('open');
+        } else {
+            document.querySelectorAll('.modal-overlay.open').forEach(el => el.classList.remove('open'));
+        }
+        // Chỉ restore scroll nếu không còn modal nào mở
+        if (!document.querySelector('.modal-overlay.open')) {
+            document.body.style.overflow = '';
+        }
+    }
+};
+
+/* ══════════════════════════════════════════
+   DROPDOWN
+   Usage: tự động, chỉ cần HTML đúng cấu trúc:
+     <div class="dropdown">
+       <button data-dropdown="my-menu">Toggle</button>
+       <div class="dropdown-menu" id="my-menu">...</div>
+     </div>
+══════════════════════════════════════════ */
+const Dropdown = {
+    init() {
+        document.addEventListener('click', (e) => {
+            const trigger = e.target.closest('[data-dropdown]');
+
+            // Đóng tất cả dropdown khác
+            document.querySelectorAll('.dropdown-menu.open').forEach(menu => {
+                if (!trigger || menu.id !== trigger.dataset.dropdown) {
+                    menu.classList.remove('open');
+                }
+            });
+
+            // Toggle dropdown được click
+            if (trigger) {
+                const menuId = trigger.dataset.dropdown;
+                document.getElementById(menuId)?.classList.toggle('open');
+            }
+        });
+    }
+};
+
+/* ══════════════════════════════════════════
+   TABS
+   Usage: tự động khi có data-tab-group
+     <div data-tab-group>
+       <button class="tab-btn active" data-tab="tab1">Tab 1</button>
+       <button class="tab-btn"        data-tab="tab2">Tab 2</button>
+     </div>
+     <div id="tab1" data-tab-panel>Nội dung 1</div>
+     <div id="tab2" data-tab-panel style="display:none">Nội dung 2</div>
+══════════════════════════════════════════ */
+const Tabs = {
+    init() {
+        document.querySelectorAll('[data-tab-group]').forEach(group => {
+            group.querySelectorAll('[data-tab]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Deactivate all
+                    group.querySelectorAll('[data-tab]').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('[data-tab-panel]').forEach(p => p.style.display = 'none');
+
+                    // Activate clicked
+                    btn.classList.add('active');
+                    const panel = document.getElementById(btn.dataset.tab);
+                    if (panel) panel.style.display = '';
+                });
+            });
+        });
+    }
+};
+
+/* ══════════════════════════════════════════
+   ESCAPE KEY — đóng modal/dropdown
+══════════════════════════════════════════ */
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        Modal.close();
+        document.querySelectorAll('.dropdown-menu.open').forEach(m => m.classList.remove('open'));
+    }
+});
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+    console.log("app.js loaded.");
+    Vote.init();
+    Dropdown.init();
+    Tabs.init();
 });

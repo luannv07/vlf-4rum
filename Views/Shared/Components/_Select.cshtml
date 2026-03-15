@@ -1,0 +1,73 @@
+@*
+    _Select.cshtml — Dropdown select
+    ──────────────────────────────────────────
+    Props (ViewData):
+      Name*          string
+      Label          string
+      Placeholder    string   — option đầu tiên disabled (default: "Chọn...")
+      Options*       IEnumerable<SelectListItem>
+      SelectedValue  string
+      Error          string
+      Hint           string
+      Required       bool
+*@
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    var name          = ViewData["Name"]?.ToString() ?? "";
+    var label         = ViewData["Label"]?.ToString();
+    var placeholder   = ViewData["Placeholder"]?.ToString() ?? "Chọn...";
+    var options       = ViewData["Options"] as IEnumerable<SelectListItem>
+                        ?? Enumerable.Empty<SelectListItem>();
+    var selectedValue = ViewData["SelectedValue"]?.ToString() ?? "";
+    var error         = ViewData["Error"]?.ToString();
+    var hint          = ViewData["Hint"]?.ToString();
+    var required      = ViewData["Required"] is true;
+
+    var hasError    = !string.IsNullOrEmpty(error);
+    var selectClass = hasError ? "select input-error" : "select";
+}
+
+<div class="form-group">
+
+    @if (!string.IsNullOrEmpty(label))
+    {
+        <label class="form-label" for="@name">
+            @label
+            @if (required)
+            {
+                <span style="color:var(--accent-red);margin-left:2px;">*</span>
+            }
+        </label>
+    }
+
+    <select class="@selectClass"
+            id="@name"
+            name="@name"
+            required="@(required ? "required" : null)">
+
+        <option value="" disabled="disabled"
+                selected="@(string.IsNullOrEmpty(selectedValue) ? "selected" : null)">
+            @placeholder
+        </option>
+
+        @foreach (var opt in options)
+        {
+            <option value="@opt.Value"
+                    selected="@(opt.Value == selectedValue ? "selected" : null)"
+                    disabled="@(opt.Disabled ? "disabled" : null)">
+                @opt.Text
+            </option>
+        }
+
+    </select>
+
+    @if (hasError)
+    {
+        <span class="form-error">⚠ @error</span>
+    }
+    else if (!string.IsNullOrEmpty(hint))
+    {
+        <span class="form-hint">@hint</span>
+    }
+
+</div>
