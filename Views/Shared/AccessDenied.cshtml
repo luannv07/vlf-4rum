@@ -1,0 +1,62 @@
+@{
+    ViewData["Title"] = "Không có quyền truy cập";
+    Layout = "_Layout";
+}
+
+<div class="relative min-h-[calc(100vh-56px)] flex items-center justify-center px-6 py-16 overflow-hidden">
+
+    <div class="pointer-events-none absolute inset-0"
+         style="background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 48px 48px; opacity: .3;">
+    </div>
+
+    <div class="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[280px]"
+         style="background: radial-gradient(ellipse, rgba(227,179,65,.11) 0%, transparent 70%);"></div>
+
+    <div class="relative z-10 w-full max-w-lg text-center" style="animation: fadeUp .45s ease both;">
+
+        <p class="font-black leading-none tracking-tighter select-none"
+               style="font-size:clamp(100px,18vw,148px); background:linear-gradient(135deg,#e3b341 0%,#d4a017 55%,#a07810 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:fadeUp .45s .05s ease both;">
+            403
+        </p>
+
+        <div class="mx-auto mb-5 h-[3px] w-12 rounded-full"
+             style="background:linear-gradient(90deg,#a07810,var(--accent-yellow)); animation:fadeUp .45s .1s ease both;">
+        </div>
+
+        <h1 class="mb-3 text-xl font-bold" style="color:var(--text-primary); animation:fadeUp .45s .15s ease both;">
+            Bạn không có quyền truy cập
+        </h1>
+
+        <p class="mx-auto mb-7 max-w-sm text-sm leading-relaxed"
+               style="color:var(--text-muted); animation:fadeUp .45s .2s ease both;">
+            Trang này yêu cầu quyền truy cập cao hơn.<br />
+            Vui lòng đăng nhập hoặc liên hệ quản trị viên để được cấp quyền.
+        </p>
+
+        <div class="mb-7 inline-flex items-center gap-2 rounded-[var(--radius-md)] border px-4 py-2.5 text-xs"
+             style="background:rgba(227,179,65,.07); border-color:rgba(227,179,65,.22); color:var(--text-muted); animation:fadeUp .45s .25s ease both;">
+            <span style="color:var(--accent-yellow);">🔒</span>
+            <span>Khu vực yêu cầu xác thực</span>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3" style="animation:fadeUp .45s .3s ease both;">
+            <luan-button href="/Account/Login" text="Đăng nhập" />
+            <luan-button href="/" variant="ghost" text="Về trang chủ" />
+        </div>
+
+    </div>
+</div>
+
+<style>
+    @@keyframes fadeUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>

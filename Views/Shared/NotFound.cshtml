@@ -1,6 +1,5 @@
-@model ErrorViewModel
 @{
-    ViewData["Title"] = "Lỗi máy chủ";
+    ViewData["Title"] = "Không tìm thấy trang";
     Layout = "_Layout";
 }
 
@@ -11,38 +10,35 @@
     </div>
 
     <div class="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[280px]"
-         style="background: radial-gradient(ellipse, rgba(218,54,51,.14) 0%, transparent 70%);"></div>
+         style="background: radial-gradient(ellipse, rgba(31,111,235,.13) 0%, transparent 70%);"></div>
 
     <div class="relative z-10 w-full max-w-lg text-center" style="animation: fadeUp .45s ease both;">
 
         <p class="font-black leading-none tracking-tighter select-none"
-               style="font-size:clamp(100px,18vw,148px); background:linear-gradient(135deg,#f85149 0%,#da3633 55%,#9e2724 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:fadeUp .45s .05s ease both;">
-            500
+               style="font-size:clamp(100px,18vw,148px); background:linear-gradient(135deg,#79c0ff 0%,#388bfd 55%,#1f6feb 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:fadeUp .45s .05s ease both;">
+            404
         </p>
 
         <div class="mx-auto mb-5 h-[3px] w-12 rounded-full"
-             style="background:linear-gradient(90deg,var(--accent-red-dk),var(--accent-red)); animation:fadeUp .45s .1s ease both;">
+             style="background:linear-gradient(90deg,var(--accent-blue-dk),var(--accent-blue)); animation:fadeUp .45s .1s ease both;">
         </div>
 
         <h1 class="mb-3 text-xl font-bold" style="color:var(--text-primary); animation:fadeUp .45s .15s ease both;">
-            Máy chủ gặp sự cố
+            Trang không tồn tại
         </h1>
 
         <p class="mx-auto mb-7 max-w-sm text-sm leading-relaxed"
                style="color:var(--text-muted); animation:fadeUp .45s .2s ease both;">
-            Đã xảy ra lỗi trong quá trình xử lý yêu cầu của bạn.<br />
-            Vui lòng thử lại sau hoặc liên hệ quản trị viên nếu lỗi tiếp tục.
+            Trang bạn đang tìm kiếm có thể đã bị xóa, đổi tên<br />
+            hoặc địa chỉ URL bạn nhập không chính xác.
         </p>
 
-        @if (Model?.ShowRequestId == true)
-        {
-            <div class="mb-6 inline-flex items-center gap-2 rounded-[var(--radius-md)] border px-4 py-2.5 text-md"
-                 style="background:rgba(218,54,51,.07); border-color:rgba(218,54,51,.22); color:var(--text-muted); animation:fadeUp .45s .25s ease both;">
-                <span style="color:var(--accent-red);">⚠</span>
-                <span>Request ID:</span>
-                <code class="font-mono break-all" style="color:var(--accent-red); font-size:14px;">@Model.RequestId</code>
-            </div>
-        }
+        <div class="mb-7 inline-flex items-center gap-2 rounded-[var(--radius-md)] border px-4 py-2.5 text-xs"
+             style="background:rgba(56,139,253,.07); border-color:rgba(56,139,253,.2); color:var(--text-muted); animation:fadeUp .45s .25s ease both;">
+            <span style="color:var(--accent-blue);">⊘</span>
+            <code class="font-mono break-all"
+                  style="color:var(--accent-teal); font-size:14px;">@Context.Request.Path</code>
+        </div>
 
         <div class="flex flex-wrap items-center justify-center gap-3" style="animation:fadeUp .45s .3s ease both;">
             <luan-button href="/" text="Về trang chủ" icon="←" />

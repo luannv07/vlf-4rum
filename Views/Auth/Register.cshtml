@@ -1,0 +1,80 @@
+@model vlf_4rum.Models.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Đăng ký";
+    Layout = "_Layout";
+}
+
+<div class="relative min-h-[calc(100vh-56px)] flex items-center justify-center px-6 py-6 overflow-hidden">
+
+    <div class="pointer-events-none absolute inset-0"
+         style="background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 48px 48px; opacity: .25;">
+    </div>
+
+    <div class="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px]"
+         style="background: radial-gradient(ellipse, rgba(31,111,235,.1) 0%, transparent 70%);"></div>
+
+    @{
+        var hasError = !ViewData.ModelState.IsValid;
+        var anim = hasError ? "" : "animation: fadeIn .3s ease both;";
+    }
+
+    <div class="relative z-10 w-full max-w-md" style="@anim">
+
+        <div class="mb-6 text-center">
+            <a href="/" class="inline-flex items-center gap-2 text-lg font-bold" style="color:var(--text-primary);">
+                <span
+                class="flex h-8 w-8 items-center justify-center rounded-[var(--radius-md)] text-sm font-black text-white"
+                style="background:var(--accent-blue-dk);">V</span>
+                vlf-4rum
+            </a>
+        </div>
+
+        <luan-card radius="sm">
+
+            <div class="mb-1">
+                <h1 class="text-lg font-bold" style="color:var(--text-primary);">Tạo tài khoản</h1>
+                <p class="text-sm" style="color:var(--text-muted);">Tham gia cộng đồng vlf-4rum ngay hôm nay</p>
+            </div>
+
+            <div class="h-px w-full" style="background:var(--border);"></div>
+
+            <form asp-action="Register" asp-controller="Auth" method="post" class="flex flex-col gap-3">
+                @Html.AntiForgeryToken()
+
+                <luan-input asp-for="Username" placeholder="vd: john_doe" hint="3–50 ký tự, chỉ dùng chữ, số và dấu _"
+                            max-length="50" />
+                <luan-input asp-for="Email" placeholder="vd: you@example.com" auto-complete="email" />
+                <luan-input asp-for="Password" placeholder="Tối thiểu 6 ký tự"
+                            hint="Nên kết hợp chữ hoa, số và ký tự đặc biệt" max-length="255" />
+                <luan-input asp-for="ConfirmPassword" placeholder="Nhập lại mật khẩu" max-length="255" />
+
+                <p class="text-xs leading-relaxed" style="color:var(--text-muted);">
+                    Bằng cách đăng ký, bạn đồng ý cho chúng tôi ăn cơm cùng.
+                </p>
+
+                <luan-button type="submit" text="Tạo tài khoản" variant="primary" block="true" />
+
+            </form>
+
+            <div class="h-px w-full" style="background:var(--border);"></div>
+
+            <p class="text-center text-sm" style="color:var(--text-muted);">
+                Đã có tài khoản?
+                <luan-button href="@Url.Action("Login", "Auth")" variant="link" text="Đăng nhập ngay" />
+            </p>
+
+        </luan-card>
+    </div>
+</div>
+
+<style>
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+</style>

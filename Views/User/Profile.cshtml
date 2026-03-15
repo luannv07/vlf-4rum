@@ -1,0 +1,135 @@
+@{
+    ViewData["Title"] = "Trang cá nhân";
+    Layout = "_Layout";
+
+    var isOwner = User.Identity?.Name == "john_doe";
+    var profile = new
+    {
+        Username = "john_doe",
+        FullName = "Nguyễn Văn A",
+        Bio = "Lập trình viên .NET | Yêu thích open source | Đang xây dựng vlf-4rum 🚀",
+        AvatarUrl = "",
+        CoverUrl = "",
+        JoinedAt = "Tháng 3, 2024",
+        Posts = 47,
+        Likes = 312,
+        Comments = 189,
+    };
+
+    var threads = new[]
+    {
+        new { Title = "Hỏi về cách tối ưu EF Core query với Include nhiều cấp", Category = "Lập trình", Replies = 24, Likes =
+47, CreatedAt = "2 giờ trước" },
+        new { Title = "Share kinh nghiệm học .NET từ 0 trong 6 tháng", Category = "Chia sẻ", Replies = 58, Likes = 134,
+CreatedAt = "5 giờ trước" },
+        new { Title = "Docker compose cho môi trường dev .NET + PostgreSQL", Category = "DevOps", Replies = 19, Likes = 62,
+CreatedAt = "2 ngày trước" },
+    };
+
+    var initial = profile.Username[0].ToString().ToUpper();
+}
+
+<div class="mx-auto max-w-4xl pb-12">
+
+    <div class="relative h-48 md:h-56 rounded-b-2xl overflow-hidden"
+         style="background: linear-gradient(135deg, #0d1520 0%, #1a2744 40%, #0f2016 100%);">
+        @if (!string.IsNullOrEmpty(profile.CoverUrl))
+        {
+            <img src="@profile.CoverUrl" class="w-full h-full object-cover" />
+        }
+        <div class="absolute inset-0 opacity-30"
+             style="background-image: linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:32px 32px;">
+        </div>
+        @if (isOwner)
+        {
+            <button
+                class="absolute top-4 right-4 flex items-center gap-1.5 px-3 py-1.5 rounded-[var(--radius-md)] text-xs font-medium border transition-all"
+                style="background:rgba(0,0,0,.4);border-color:rgba(255,255,255,.15);color:var(--text-secondary);backdrop-filter:blur(8px);">
+                📷 Đổi ảnh bìa
+            </button>
+        }
+    </div>
+
+    <div class="relative px-6">
+        <div class="flex items-end justify-between">
+            <div class="relative -mt-14 md:-mt-16">
+                @if (!string.IsNullOrEmpty(profile.AvatarUrl))
+                {
+                    <img src="@profile.AvatarUrl" class="w-24 h-24 md:w-28 md:h-28 rounded-full object-cover border-4"
+                         style="border-color:var(--bg-base);" />
+                }
+                else
+                {
+                    <div class="w-24 h-24 md:w-28 md:h-28 rounded-full border-4 flex items-center justify-center text-3xl font-black text-white"
+                         style="background:var(--accent-blue-dk);border-color:var(--bg-base);">@initial</div>
+                }
+                @if (isOwner)
+                {
+                    <button
+                    class="absolute bottom-1 right-1 w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs transition-colors hover:bg-[var(--bg-overlay)]"
+                    style="background:var(--bg-elevated);border-color:var(--bg-base);color:var(--text-muted);">📷</button>
+                }
+            </div>
+            <div class="pb-2 flex items-center gap-2">
+                @if (isOwner)
+                {
+                    <luan-button href="@Url.Action("EditProfile", "Account")" variant="secondary" size="sm"
+                                 text="Chỉnh sửa profile" />
+                }
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <h1 class="text-xl font-bold" style="color:var(--text-primary);">@profile.FullName</h1>
+            <p class="text-sm mt-0.5" style="color:var(--text-muted);">@@@profile.Username</p>
+            @if (!string.IsNullOrEmpty(profile.Bio))
+            {
+                <p class="text-sm mt-2 max-w-lg leading-relaxed" style="color:var(--text-secondary);">@profile.Bio</p>
+            }
+            <p class="text-xs mt-2" style="color:var(--text-subtle);">📅 Tham gia @profile.JoinedAt</p>
+        </div>
+
+        <div class="mt-4 flex items-center gap-6 border-b pb-4" style="border-color:var(--border);">
+            <div class="text-center">
+                <p class="text-lg font-bold" style="color:var(--text-primary);">@profile.Posts</p>
+                <p class="text-xs" style="color:var(--text-muted);">Bài viết</p>
+            </div>
+            <div class="h-8 w-px" style="background:var(--border);"></div>
+            <div class="text-center">
+                <p class="text-lg font-bold" style="color:var(--text-primary);">@profile.Likes</p>
+                <p class="text-xs" style="color:var(--text-muted);">Lượt thích</p>
+            </div>
+            <div class="h-8 w-px" style="background:var(--border);"></div>
+            <div class="text-center">
+                <p class="text-lg font-bold" style="color:var(--text-primary);">@profile.Comments</p>
+                <p class="text-xs" style="color:var(--text-muted);">Bình luận</p>
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <h2 class="text-sm font-semibold mb-3" style="color:var(--text-muted);">BÀI VIẾT ĐÃ ĐĂNG</h2>
+            <div class="flex flex-col gap-2">
+                @foreach (var t in threads)
+                {
+                    <div class="flex items-start gap-3 rounded-[var(--radius-md)] border px-4 py-3 transition-all duration-150 hover:border-[var(--border-focus)]"
+                         style="background:var(--bg-card);border-color:var(--border-muted);">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium"
+                                      style="background:var(--bg-elevated);color:var(--text-muted);">@t.Category</span>
+                                <span class="text-xs" style="color:var(--text-subtle);">@t.CreatedAt</span>
+                            </div>
+                            <a href="#" class="text-sm font-semibold leading-snug hover:underline"
+                               style="color:var(--text-primary);">@t.Title</a>
+                            <div class="flex items-center gap-3 mt-1.5 text-xs" style="color:var(--text-muted);">
+                                <span>💬 @t.Replies</span>
+                                <span>❤️ @t.Likes</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</div>

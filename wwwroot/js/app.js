@@ -1,11 +1,15 @@
-// Thêm vào file JS global của bạn
-document.addEventListener('click', function(e) {
-    const btn = e.target.closest('[data-confirm]');
-    if (!btn) return;
+import { initToasts }    from './toast.js';
+import { initDropdown, initStickyNav } from './dropdown.js';
 
-    const message = btn.getAttribute('data-confirm');
-    if (!confirm(message)) {
-        e.preventDefault();
-        e.stopPropagation();
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    initToasts();
+    initDropdown();
+    initStickyNav();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    initToasts();
+    // Sau này thêm module khác vào đây
+    // import { initDropdown } from './dropdown.js';
+    // initDropdown();
 });

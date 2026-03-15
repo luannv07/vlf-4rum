@@ -1,52 +1,80 @@
-@* _Navbar.cshtml
-   Partial tái sử dụng toàn app — không cần @model
-   Sau khi có Auth: thay phần avatar bằng User.Identity
-*@
-<nav class="navbar">
-    <div class="container navbar-inner">
-
-        @* Logo *@
-        <div style="display:flex;align-items:center;gap:20px;">
-            <a href="/" class="logo">⬡ VLF</a>
-
-            @* Nav links — ẩn trên mobile *@
-            <div style="display:flex;gap:2px;" class="hide-mobile">
-                <a href="/" class="btn btn-ghost btn-sm">Tất cả</a>
-                <a href="#" class="btn btn-ghost btn-sm">Công nghệ</a>
-                <a href="#" class="btn btn-ghost btn-sm">Khoa học</a>
-                <a href="#" class="btn btn-ghost btn-sm">Gaming</a>
-                <a href="#" class="btn btn-ghost btn-sm">Thiết kế</a>
+@{
+    var avatarLink = User.FindFirst("AvatarLink")?.Value;
+    var username = User.Identity?.Name ?? "U";
+    var initial = username[0].ToString().ToUpper();
+    var isAuth = User.Identity?.IsAuthenticated == true;
+}
+<form id="logout-form" asp-action="Logout" asp-controller="Auth" method="post" class="hidden" action="/Auth/Logout">
+    @Html.AntiForgeryToken()
+</form>
+<nav class="inset-x-0 z-40 h-14 flex items-center border-b"
+     style="background:var(--bg-surface);border-color:var(--border-muted);">
+    <div class="mx-auto w-full max-w-6xl px-4 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+            <a href="/" class="text-xl font-black tracking-tight" style="color:var(--text-primary);">⬡ VLF</a>
+            <div class="hidden md:flex items-center gap-1">
+                <luan-button href="/" variant="ghost" size="sm" text="Tất cả" />
+                <luan-button href="#" variant="ghost" size="sm" text="Công nghệ" />
+                <luan-button href="#" variant="ghost" size="sm" text="Khoa học" />
+                <luan-button href="#" variant="ghost" size="sm" text="Gaming" />
+                <luan-button href="#" variant="ghost" size="sm" text="Thiết kế" />
             </div>
         </div>
-
-        @* Right side *@
-        <div style="display:flex;align-items:center;gap:8px;">
-
-            @* Search — ẩn trên mobile *@
-            <div style="position:relative;" class="hide-mobile">
-                <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-subtle);">🔍</span>
-                <input class="input"
-                       placeholder="Tìm kiếm..."
-                       style="width:200px;padding-left:32px;padding-top:6px;padding-bottom:6px;font-size:13px;" />
+        <div class="flex items-center gap-2">
+            <div class="relative hidden md:block">
+                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-xs"
+                      style="color:var(--text-subtle);">🔍</span>
+                <input placeholder="Tìm kiếm..."
+                       class="rounded-[var(--radius-md)] border pl-8 pr-3 py-1.5 text-sm outline-none transition-all focus:border-[var(--border-focus)] focus:ring-1 focus:ring-[var(--border-focus)]"
+                       style="width:200px;background:var(--bg-elevated);border-color:var(--border-muted);color:var(--text-primary);" />
             </div>
-
-            @* Notifications *@
-            <a href="#" class="btn btn-ghost btn-sm" style="font-size:16px;padding:6px 8px;">🔔</a>
-
-            @* New post *@
-            <a href="#" class="btn btn-primary btn-sm">+ Đăng bài</a>
-
-            @* Avatar / Auth
-               TODO: sau khi có Identity, bọc trong @if (User.Identity?.IsAuthenticated == true)
-            *@
-            <div class="avatar-wrapper">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=vlf"
-                     class="avatar avatar-md avatar-bordered"
-                     alt="avatar"
-                     style="cursor:pointer;" />
-                <span class="online-dot"></span>
+            @if (isAuth)
+            {
+                <luan-button href="#" variant="ghost" size="sm" icon="🔔" icon-only="true" />
+                <luan-button href="#" variant="primary" size="sm" text="+ Đăng bài" />
+                <div class="relative" id="avatar-menu-wrapper">
+                    <div id="avatar-trigger"
+                         class="flex items-center gap-2 px-2 py-1 rounded-[var(--radius-md)] border border-transparent cursor-pointer transition-all duration-150 hover:border-[var(--border-muted)] hover:bg-[var(--bg-elevated)]">
+                        @if (!string.IsNullOrEmpty(avatarLink))
+                        {
+                            <img src="@avatarLink" class="w-8 h-8 rounded-full object-cover border-2"
+                                 style="border-color:var(--border-muted);" alt="@username" />
+                        }
+                        else
+                        {
+                            <div class="w-8 h-8 rounded-full border-2 flex items-center justify-center text-sm font-bold text-white shrink-0"
+                                 style="background:var(--accent-blue-dk);border-color:var(--border-muted);">@initial</div>
+                        }
+                        <span class="hidden md:block text-sm font-medium"
+                              style="color:var(--text-secondary);">@username</span>
+                        <span class="text-[10px]" style="color:var(--text-muted);">▾</span>
+                    </div>
+                    <div id="avatar-dropdown"
+                         class="hidden absolute top-[calc(100%+8px)] right-0 min-w-[200px] rounded-[var(--radius-md)] border overflow-hidden"
+                         style="background:var(--bg-elevated);border-color:var(--border-muted);box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:9995;">
+                        <div class="px-4 py-3 border-b" style="border-color:var(--border);">
+                            <p class="text-sm font-semibold" style="color:var(--text-primary);">@username</p>
+                            <p class="text-xs mt-0.5" style="color:var(--text-muted);">
+                                @User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value</p>
+                            </div>
+                            <a href="@Url.Action("Profile","User", new { username = username })"
+                                   class="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-[var(--bg-overlay)]"
+                                   style="color:var(--text-secondary);">
+                                <span>👤</span><span>Trang cá nhân</span>
+                            </a>
+                            <button type="button" onclick="document.getElementById('logout-form').submit()"
+                                    class="w-full flex items-center gap-3 px-4 py-2.5 text-sm border-none cursor-pointer text-left transition-colors hover:bg-[rgba(248,81,73,.08)]"
+                                    style="background:transparent;color:var(--accent-red);">
+                                <span>🚪</span><span>Đăng xuất</span>
+                            </button>
+                        </div>
+                    </div>
+                }
+            else
+                {
+                    <luan-button href="@Url.Action("Login","Auth")" variant="ghost" size="sm" text="Đăng nhập" />
+                    <luan-button href="@Url.Action("Register","Auth")" variant="primary" size="sm" text="Đăng ký" />
+                }
             </div>
-
         </div>
-    </div>
-</nav>
+    </nav>
