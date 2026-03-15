@@ -4,7 +4,10 @@
     var initial = username[0].ToString().ToUpper();
     var isAuth = User.Identity?.IsAuthenticated == true;
 }
-<nav class="fixed top-0 inset-x-0 z-40 h-14 flex items-center border-b"
+<form id="logout-form" asp-action="Logout" asp-controller="Auth" method="post" class="hidden" action="/Auth/Logout">
+    @Html.AntiForgeryToken()
+</form>
+<nav class="inset-x-0 z-40 h-14 flex items-center border-b"
      style="background:var(--bg-surface);border-color:var(--border-muted);">
     <div class="mx-auto w-full max-w-6xl px-4 flex items-center justify-between gap-4">
         <div class="flex items-center gap-4">
@@ -48,25 +51,22 @@
                     </div>
                     <div id="avatar-dropdown"
                          class="hidden absolute top-[calc(100%+8px)] right-0 min-w-[200px] rounded-[var(--radius-md)] border overflow-hidden"
-                         style="background:var(--bg-elevated);border-color:var(--border-muted);box-shadow:0 8px 24px rgba(0,0,0,.4);">
+                         style="background:var(--bg-elevated);border-color:var(--border-muted);box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:9995;">
                         <div class="px-4 py-3 border-b" style="border-color:var(--border);">
                             <p class="text-sm font-semibold" style="color:var(--text-primary);">@username</p>
                             <p class="text-xs mt-0.5" style="color:var(--text-muted);">
                                 @User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value</p>
                             </div>
-                            <a href="@Url.Action("Profile","Account")"
+                            <a href="@Url.Action("Profile","User", new { username = username })"
                                    class="flex items-center gap-3 px-4 py-2.5 text-sm transition-colors hover:bg-[var(--bg-overlay)]"
                                    style="color:var(--text-secondary);">
                                 <span>👤</span><span>Trang cá nhân</span>
                             </a>
-                            <form asp-action="Logout" asp-controller="Auth" method="post" class="m-0">
-                                @Html.AntiForgeryToken()
-                                <button type="submit"
-                                        class="w-full flex items-center gap-3 px-4 py-2.5 text-sm border-none cursor-pointer text-left transition-colors hover:bg-[rgba(248,81,73,.08)]"
-                                        style="background:transparent;color:var(--accent-red);">
-                                    <span>🚪</span><span>Đăng xuất</span>
-                                </button>
-                            </form>
+                            <button type="button" onclick="document.getElementById('logout-form').submit()"
+                                    class="w-full flex items-center gap-3 px-4 py-2.5 text-sm border-none cursor-pointer text-left transition-colors hover:bg-[rgba(248,81,73,.08)]"
+                                    style="background:transparent;color:var(--accent-red);">
+                                <span>🚪</span><span>Đăng xuất</span>
+                            </button>
                         </div>
                     </div>
                 }

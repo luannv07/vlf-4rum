@@ -11,19 +11,8 @@ public class HomeController : BaseController
     public HomeController(ICurrentUserService currentUser) : base(currentUser)
     {
     }
-    public IActionResult Test()
-    {
-        var userId = CurrentUser.UserId;
-
-        return View(userId);
-    }
 
     public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Privacy()
     {
         return View();
     }

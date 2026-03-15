@@ -140,7 +140,6 @@ public class AuthService : IAuthService
         return (true, null);
     }
 
-    // ── Logout ────────────────────────────────────────────
     public async Task LogoutAsync()
     {
         await _httpContext.HttpContext!.SignOutAsync(

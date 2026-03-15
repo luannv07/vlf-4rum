@@ -3,12 +3,12 @@ using VlfForum.Services.Interfaces;
 
 namespace VlfForum.Controllers;
 
-public class BaseController : Controller
+public abstract class BaseController : Controller
 {
-    protected readonly ICurrentUserService CurrentUser;
+    protected readonly ICurrentUserService _currentUser;
 
-    public BaseController(ICurrentUserService currentUser)
+    protected BaseController(ICurrentUserService currentUser)
     {
-        CurrentUser = currentUser;
+        _currentUser = currentUser;
     }
 }

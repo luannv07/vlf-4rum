@@ -61,15 +61,31 @@ namespace vlf_4rum.Controllers
 
             TempData["Toast.Variant"] = "success";
             TempData["Toast.Message"] = "Đăng nhập thành công!";
-            return RedirectToAction("Home");
+            return RedirectToAction("Index", "Home");
         }
 
-        // ── Logout ────────────────────────────────────────────
         [HttpPost]
+        [Route("Auth/Logout")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            // TODO
+            var username = User.Identity?.Name;
+            Console.WriteLine($"[Logout] User: {username} đang đăng xuất...");
+
+            try
+            {
+                await _authService.LogoutAsync();
+                Console.WriteLine($"[Logout] SignOut thành công cho: {username}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[Logout] Lỗi: {ex.Message}");
+                throw;
+            }
+
+            TempData["Toast.Variant"] = "success";
+            TempData["Toast.Message"] = "Đã đăng xuất thành công.";
+            Console.WriteLine($"[Logout] Redirect về Login");
             return RedirectToAction("Login");
         }
     }
