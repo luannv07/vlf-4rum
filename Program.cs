@@ -43,6 +43,8 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
+    await db.Database.MigrateAsync();
+    await DatabaseSeeder.SeedAsync(db);
 }
 
 /* AUTO SEED ADMIN ACCOUNT (NOW) IF NOT EXIST */

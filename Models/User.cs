@@ -31,7 +31,8 @@ namespace Vlf4rum.Models
         public string? AvatarLink { get; set; }
 
         public bool IsActive { get; set; } = true;
-
         public DateTime? LastLoginAt { get; set; }
+        public UserRole? UserRole { get; set; }
+        public ICollection<UserPermission> UserPermissions { get; set; } = new List<UserPermission>();
     }
 }
