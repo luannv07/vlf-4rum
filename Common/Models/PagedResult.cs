@@ -2,7 +2,7 @@ namespace VlfForum.Common.Models;
 
 public class PagedResult<T>
 {
-    public List<T> Items { get; set; }
+    public List<T> Items { get; set; } = new List<T>();
 
     public int Page { get; set; }
 
