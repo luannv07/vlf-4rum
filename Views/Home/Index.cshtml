@@ -2,38 +2,33 @@
     ViewData["Title"] = "Trang chủ";
 }
 <div class="container page-content">
-    <div style="
-        display:flex;align-items:center;justify-content:center;min-height:60vh;flex-direction:column;gap:16px;">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;padding:24px;align-items:center;">
 
-        <div style="font-size:56px;">⬡</div>
+        <luan-button text="Primary"></luan-button>
 
-        <h1 class="heading heading-lg" style="color:var(--accent-blue);">VLF-4RUM</h1>
+        <luan-button text="Secondary" variant="secondary"></luan-button>
 
-        <p class="text-muted" style="text-align:center;max-width:400px;line-height:1.7;">
-            Base project đã sẵn sàng.<br />
-            Bắt đầu xây dựng các tính năng tại đây.
-        </p>
+        <luan-button text="Ghost" variant="ghost"></luan-button>
 
-        @* Demo các component base *@
-        <div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:16px;">
-            <button class="btn btn-primary" onclick="Toast.show('Chào mừng đến VLF-4RUM!', 'success')">
-                ✅ Toast Success
-            </button>
-            <button class="btn btn-ghost" onclick="Toast.show('Đây là thông báo.', 'info')">
-                ℹ️ Toast Info
-            </button>
-            <button class="btn btn-danger"
-                    onclick="Confirm.ask('Bạn có chắc muốn xoá không?', () => Toast.show('Đã xoá!', 'danger'))">
-                🗑️ Confirm Dialog
-            </button>
-        </div>
+        <luan-button text="Outline" variant="outline"></luan-button>
 
-        @* Demo vote buttons *@
-        <div data-vote-group="demo-post" style="display:flex;align-items:center;gap:8px;margin-top:8px;">
-            <button class="vote-btn vote-up" data-vote="up">▲ 42</button>
-            <button class="vote-btn vote-down" data-vote="down">▼</button>
-        </div>
-        <a asp-controller="Home" asp-action="Error">Error Page</a>
+        <luan-button text="Danger" variant="danger" icon="🗑️"></luan-button>
+
+        <luan-button text="Success" variant="success" icon="✅"></luan-button>
+
+        <luan-button text="Warning" variant="warning" icon="⚠️"></luan-button>
+
+        <luan-button text="Loading..." variant="danger" loading="true"></luan-button>
+
+        <luan-button text="Disabled" variant="primary" disabled="true"></luan-button>
+
+        <luan-button text="Click me" variant="primary" on-click="alert('ur mom fat')"></luan-button>
+
+        <luan-button text="Link" variant="outline" href="https://google.com" target="_blank"
+                     icon-right="→"></luan-button>
+
+        <luan-button icon="⚙️" icon-only="true" variant="ghost" title="Cài đặt"></luan-button>
+
     </div>
 
 </div>

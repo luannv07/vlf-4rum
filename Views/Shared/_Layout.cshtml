@@ -6,26 +6,27 @@
     <title>@ViewData["Title"] – VLF-4RUM</title>
 
     @* Fonts *@
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet" />
+    <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
 
     @* Tailwind CSS CDN *@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans:    ['Manrope', 'sans-serif'],
-                        display: ['Syne', 'sans-serif'],
-                    },
-                    colors: {
-                        surface:  '#161b22',
-                        elevated: '#1c2333',
-                        border:   '#21262d',
-                    }
-                }
-            }
+        theme: {
+        extend: {
+        fontFamily: {
+        sans: ['Manrope', 'sans-serif'],
+        display: ['Syne', 'sans-serif'],
+        },
+        colors: {
+        surface: '#161b22',
+        elevated: '#1c2333',
+        border: '#21262d',
+        }
+        }
+        }
         }
     </script>
 
@@ -47,4 +48,5 @@
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>
+
 </html>
