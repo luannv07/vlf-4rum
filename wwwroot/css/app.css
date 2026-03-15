@@ -8,9 +8,18 @@
   --bg-surface: #161b22;
   --bg-elevated: #1c2333;
   --bg-overlay: #00000080;
+
+  /* Background semantic — dùng cho component */
+  --bg-page: var(--bg-base); /* nền trang */
+  --bg-card: var(--bg-surface); /* card nổi trên nền trang */
+  --bg-input: var(--bg-elevated); /* input nổi trên card */
+  --bg-tooltip: var(--bg-elevated); /* tooltip, popover */
+
   /* Border */
-  --border: #21262d;
-  --border-focus: #388bfd;
+  --border: #21262d; /* divider nhẹ, separator */
+  --border-muted: #30363d; /* viền input, card outlined */
+  --border-subtle: #2d333b; /* viền ghost, phân cách nhẹ */
+  --border-focus: #388bfd; /* focus ring */
 
   /* Text */
   --text-primary: #e6edf3;
@@ -32,8 +41,6 @@
   /* Typography */
   --font-body: "Be Vietnam Pro", sans-serif;
   --font-display: "Be Vietnam Pro", sans-serif;
-
-  /* Font scale — chỉnh 1 chỗ này để scale toàn bộ chữ */
   --font-scale: 1.2;
 
   /* Border radius */

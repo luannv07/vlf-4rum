@@ -41,4 +41,53 @@ public static class Ui
         "link" => "bg-transparent text-[var(--accent-blue)] border border-transparent hover:underline hover:text-[var(--accent-teal)] p-0 h-auto min-h-0",
         _ => "bg-[var(--accent-blue-dk)] text-white border border-[var(--accent-blue-dk)] hover:bg-[var(--accent-blue)] hover:border-[var(--accent-blue)]",
     };
+
+    // Input → bg-input
+    public static string InputBase =>
+        "w-full bg-[var(--bg-input)] text-[var(--text-primary)] " +
+        "border border-[var(--border-muted)] rounded-[var(--radius-md)] " +
+        "placeholder:text-[var(--text-muted)] " +
+        "transition-all duration-150 ease-in-out " +
+        "focus:outline-none focus:border-[var(--border-focus)] focus:ring-1 focus:ring-[var(--border-focus)] " +
+        "disabled:opacity-50 disabled:cursor-not-allowed " +
+        "read-only:opacity-70 read-only:cursor-default";
+
+    public static string InputSize(string size) => size switch
+    {
+        "xs" => "px-2.5 py-1   text-xs   min-h-[26px]",
+        "sm" => "px-3   py-1.5 text-sm   min-h-[32px]",
+        "lg" => "px-4   py-2.5 text-base min-h-[44px]",
+        "xl" => "px-5   py-3   text-lg   min-h-[52px]",
+        _ => "px-3.5 py-2   text-sm   min-h-[38px]",
+    };
+
+    public static string InputError =>
+        "border-[var(--accent-red)] focus:border-[var(--accent-red)] focus:ring-[var(--accent-red)]";
+
+    public static string InputSuccess =>
+"border-[var(--accent-green)] focus:border-[var(--accent-green)] focus:ring-[var(--accent-green)]";
+
+    public static string CardVariant(string variant) => variant switch
+    {
+        "outlined" => "bg-transparent border border-[var(--border-subtle)]",
+        "flat" => "bg-[var(--bg-page)] border border-transparent",
+        "ghost" => "bg-transparent border border-transparent",
+        _ => "bg-[var(--bg-card)] border border-[var(--border-muted)] shadow-md",
+    };
+
+    public static string CardRadius(string radius) => radius switch
+    {
+        "none" => "rounded-none",
+        "sm" => "rounded-[var(--radius-sm)]",
+        "lg" => "rounded-[var(--radius-lg)]",
+        _ => "rounded-[var(--radius-md)]",
+    };
+
+    public static string CardPadding(string padding) => padding switch
+    {
+        "none" => "p-0",
+        "sm" => "p-3",
+        "lg" => "p-6",
+        _ => "p-5",
+    };
 }

@@ -1,7 +1,31 @@
 using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace vlf_4rum.TagHelpers;
-
+/*
+ * <luan-button>
+ * ═══════════════════════════════════════════════════════
+ *  Prop        Type       Nullable   Default
+ * ───────────────────────────────────────────────────────
+ *  Text        string     no         "Button"
+ *  Icon        string     yes        null
+ *  IconRight   string     yes        null
+ *  IconOnly    bool       no         false
+ *  Variant     string     no         "primary"
+ *              primary | secondary | ghost | outline
+ *              danger  | success   | warning | link
+ *  Size        string     no         "md"
+ *              xs | sm | md | lg | xl
+ *  Block       bool       no         false
+ *  Loading     bool       no         false
+ *  Disabled    bool       no         false
+ *  Type        string     no         "button"
+ *              button | submit | reset
+ *  Href        string     yes        null  → render <a>
+ *  Target      string     yes        null
+ *  OnClick     string     yes        null
+ *  cx          string     yes        null  → extra classes
+ * ═══════════════════════════════════════════════════════
+ */
 [HtmlTargetElement("luan-button")]
 public class ButtonTagHelper : BaseTagHelper
 {
@@ -25,8 +49,8 @@ public class ButtonTagHelper : BaseTagHelper
     protected override string RootTag(TagHelperContext context) => IsLink ? "a" : "button";
 
     protected override string BuildClass(TagHelperContext context) => MergeClasses(
-    Block ? "w-full justify-center" : "inline-flex",
-    "items-center font-medium leading-none whitespace-nowrap select-none",
+    Block ? "w-full" : "inline-flex",
+    "items-center font-medium justify-center leading-none whitespace-nowrap select-none flex ",
     "transition-all duration-150 ease-in-out",
     "focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--border-focus)]",
     "active:scale-[0.97] rounded-[var(--radius-md)]",

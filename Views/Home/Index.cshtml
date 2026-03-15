@@ -2,33 +2,15 @@
     ViewData["Title"] = "Trang chủ";
 }
 <div class="container page-content">
-    <div style="display:flex;flex-wrap:wrap;gap:12px;padding:24px;align-items:center;">
+    <form action="/login" method="POST">
+        <luan-card cx="max-w-[50%]" title="Đăng ký" subtitle="Tham gia cộng đồng vlf-4rum" radius="sm">
+            <luan-input name="Tên tài khoản" placeholder="Username" hint="Nhập tên tài khoản (tối đa 50 kí tự)"
+                        max-length="50" required="true"></luan-input>
 
-        <luan-button text="Primary"></luan-button>
+            <luan-input type="password" name="Mật khẩu" placeholder="Password" hint="Nhập mật khẩu (tối đa 50 kí tự)"
+                        max-length="50" required="true"></luan-input>
 
-        <luan-button text="Secondary" variant="secondary"></luan-button>
-
-        <luan-button text="Ghost" variant="ghost"></luan-button>
-
-        <luan-button text="Outline" variant="outline"></luan-button>
-
-        <luan-button text="Danger" variant="danger" icon="🗑️"></luan-button>
-
-        <luan-button text="Success" variant="success" icon="✅"></luan-button>
-
-        <luan-button text="Warning" variant="warning" icon="⚠️"></luan-button>
-
-        <luan-button text="Loading..." variant="danger" loading="true"></luan-button>
-
-        <luan-button text="Disabled" variant="primary" disabled="true"></luan-button>
-
-        <luan-button text="Click me" variant="primary" on-click="alert('ur mom fat')"></luan-button>
-
-        <luan-button text="Link" variant="outline" href="https://google.com" target="_blank"
-                     icon-right="→"></luan-button>
-
-        <luan-button icon="⚙️" icon-only="true" variant="ghost" title="Cài đặt"></luan-button>
-
-    </div>
-
+            <luan-button text="Đăng ký"" type=" submit" variant=" primary"></luan-button>
+        </luan-card>
+    </form>
 </div>
