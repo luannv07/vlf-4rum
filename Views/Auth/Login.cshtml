@@ -1,0 +1,89 @@
+@model vlf_4rum.Models.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "_Layout";
+}
+
+<div class="relative min-h-[calc(100vh-56px)] flex items-center justify-center px-6 py-6 overflow-hidden">
+
+    <div class="pointer-events-none absolute inset-0"
+         style="background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 48px 48px; opacity: .25;">
+    </div>
+
+    <div class="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px]"
+         style="background: radial-gradient(ellipse, rgba(31,111,235,.1) 0%, transparent 70%);"></div>
+
+    @{
+        var hasError = !ViewData.ModelState.IsValid;
+        var anim = hasError ? "" : "animation: fadeIn .3s ease both;";
+    }
+
+    <div class="relative z-10 w-full max-w-md" style="@anim">
+
+        <div class="mb-6 text-center">
+            <a href="/" class="inline-flex items-center gap-2 text-lg font-bold" style="color:var(--text-primary);">
+                <span
+                class="flex h-8 w-8 items-center justify-center rounded-[var(--radius-md)] text-sm font-black text-white"
+                style="background:var(--accent-blue-dk);">V</span>
+                vlf-4rum
+            </a>
+        </div>
+
+        <luan-card radius="sm">
+
+            <div class="mb-1">
+                <h1 class="text-lg font-bold" style="color:var(--text-primary);">Đăng nhập</h1>
+                <p class="text-sm" style="color:var(--text-muted);">Chào mừng trở lại!</p>
+            </div>
+
+            <div class="h-px w-full" style="background:var(--border);"></div>
+
+            <form asp-action="Login" asp-controller="Auth" method="post" class="flex flex-col gap-3">
+                @Html.AntiForgeryToken()
+
+                <luan-input asp-for="Username" placeholder="Tên tài khoản" auto-complete="username" />
+                <luan-input asp-for="Password" placeholder="Mật khẩu" auto-complete="current-password" />
+
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center gap-2 text-sm cursor-pointer select-none"
+                           style="color:var(--text-muted);">
+                        @{
+                            var rememberMeChecked = Model?.RememberMe == true;
+                        }
+                        <input type="checkbox" name="RememberMe" value="true"
+                               class="w-3.5 h-3.5 rounded accent-[var(--accent-blue)]" @(rememberMeChecked ? "checked" :
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           "") />
+                        <input type="hidden" name="RememberMe" value="false" />
+                        Ghi nhớ đăng nhập
+                    </label>
+                    <luan-button href="#" variant="link" text="Quên mật khẩu?" />
+                </div>
+
+                <div class="pt-1">
+                    <luan-button type="submit" text="Đăng nhập" variant="primary" block="true" />
+                </div>
+
+            </form>
+
+            <div class="h-px w-full" style="background:var(--border);"></div>
+
+            <p class="text-center text-sm" style="color:var(--text-muted);">
+                Chưa có tài khoản?
+                <luan-button href="@Url.Action("Register", "Auth")" variant="link" text="Đăng ký ngay" />
+            </p>
+
+        </luan-card>
+    </div>
+</div>
+
+<style>
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+</style>

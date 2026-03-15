@@ -1,16 +1,156 @@
 @{
     ViewData["Title"] = "Trang chủ";
+    Layout = "_Layout";
+
+    var threads = new[]
+    {
+        new { Id = 1, Title = "Hỏi về cách tối ưu EF Core query với Include nhiều cấp", Category = "Lập trình", Author =
+"john_doe", Avatar = "J", Replies = 24, Views = 312, Likes = 47, IsPinned = true, IsHot = true, CreatedAt = "2 giờ trước" },
+        new { Id = 2, Title = "Share kinh nghiệm học .NET từ 0 trong 6 tháng", Category = "Chia sẻ", Author = "anna_dev", Avatar
+= "A", Replies = 58, Views = 891, Likes = 134, IsPinned = false, IsHot = true, CreatedAt = "5 giờ trước" },
+        new { Id = 3, Title = "Review laptop Dell XPS 15 2024 sau 3 tháng sử dụng", Category = "Review", Author = "techguy",
+Avatar = "T", Replies = 11, Views = 203, Likes = 29, IsPinned = false, IsHot = false, CreatedAt = "8 giờ trước" },
+        new { Id = 4, Title = "Tailwind CSS vs Bootstrap — nên dùng cái nào năm 2024?", Category = "Lập trình", Author =
+"css_nerd", Avatar = "C", Replies = 73, Views = 1204, Likes = 88, IsPinned = false, IsHot = true, CreatedAt = "1 ngày trước" },
+        new { Id = 5, Title = "Tìm thành viên làm dự án open source forum .NET", Category = "Tuyển dụng",Author =
+"vlf_admin",Avatar = "V", Replies = 6, Views = 98, Likes = 15, IsPinned = false, IsHot = false, CreatedAt = "1 ngày trước" },
+        new { Id = 6, Title = "Docker compose cho môi trường dev .NET + PostgreSQL", Category = "DevOps", Author =
+"devops_le",Avatar = "D", Replies = 19, Views = 445, Likes = 62, IsPinned = false, IsHot = false, CreatedAt = "2 ngày trước" },
+        new { Id = 7, Title = "Giới thiệu bản thân — newbie vừa join diễn đàn", Category = "Giới thiệu",Author =
+"newbie_99",Avatar = "N", Replies = 32, Views = 178, Likes = 41, IsPinned = false, IsHot = false, CreatedAt = "3 ngày trước" },
+    };
+
+    var categories = new[]
+    {
+        new { Name = "Tất cả", Count = 0 },
+        new { Name = "Lập trình",Count = 142 },
+        new { Name = "Chia sẻ", Count = 87 },
+        new { Name = "Review", Count = 54 },
+        new { Name = "DevOps", Count = 38 },
+        new { Name = "Tuyển dụng",Count = 21 },
+        new { Name = "Giới thiệu",Count = 63 },
+    };
+
+    var stats = new[]
+    {
+        new { Label = "Thành viên", Value = "1,204" },
+        new { Label = "Bài viết", Value = "8,471" },
+        new { Label = "Online", Value = "38"    },
+    };
 }
-<div class="container page-content">
-    <form action="/login" method="POST">
-        <luan-card cx="max-w-[50%]" title="Đăng ký" subtitle="Tham gia cộng đồng vlf-4rum" radius="sm">
-            <luan-input name="Tên tài khoản" placeholder="Username" hint="Nhập tên tài khoản (tối đa 50 kí tự)"
-                        max-length="50" required="true"></luan-input>
 
-            <luan-input type="password" name="Mật khẩu" placeholder="Password" hint="Nhập mật khẩu (tối đa 50 kí tự)"
-                        max-length="50" required="true"></luan-input>
+<div class="mx-auto max-w-5xl px-4 py-8">
 
-            <luan-button text="Đăng ký"" type=" submit" variant=" primary"></luan-button>
-        </luan-card>
-    </form>
+    <div class="mb-6 flex items-center gap-6 rounded-[var(--radius-md)] border px-5 py-3"
+         style="background:var(--bg-card); border-color:var(--border-muted);">
+        @foreach (var s in stats)
+        {
+            <div class="flex items-center gap-2 text-sm">
+                <span class="font-bold" style="color:var(--accent-blue);">@s.Value</span>
+                <span style="color:var(--text-muted);">@s.Label</span>
+            </div>
+            @if (s != stats.Last())
+            {
+                <div class="h-4 w-px" style="background:var(--border);"></div>
+            }
+        }
+        <div class="ml-auto">
+            <luan-button href="@Url.Action("Register", "Auth")" text="Tạo bài viết" size="sm" />
+        </div>
+    </div>
+
+    <div class="flex gap-6">
+
+        <div class="flex-1 min-w-0 flex flex-col gap-2">
+
+            <div class="mb-2 flex items-center gap-2">
+                <luan-button variant="primary" size="sm" text="Mới nhất" />
+                <luan-button variant="secondary" size="sm" text="Nổi bật" />
+                <luan-button variant="secondary" size="sm" text="Nhiều bình luận" />
+            </div>
+
+            @foreach (var t in threads)
+            {
+                <div class="group flex gap-3 rounded-[var(--radius-md)] border px-4 py-3.5 transition-all duration-150 hover:border-[var(--border-focus)]"
+                     style="background:var(--bg-card); border-color:var(--border-muted);">
+
+                    <div class="shrink-0 mt-0.5 flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold text-white"
+                         style="background:var(--accent-blue-dk);">
+                        @t.Avatar
+                    </div>
+
+                    <div class="flex-1 min-w-0">
+
+                        <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                            @if (t.IsPinned)
+                            {
+                                <span class="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-semibold"
+                                      style="background:rgba(56,139,253,.12); color:var(--accent-blue);">📌 Ghim</span>
+                            }
+                            @if (t.IsHot)
+                            {
+                                <span class="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-semibold"
+                                      style="background:rgba(248,81,73,.12); color:var(--accent-red);">🔥 Hot</span>
+                            }
+                            <span class="inline-flex items-center rounded px-1.5 py-0.5 text-[10px] font-medium"
+                                  style="background:var(--bg-elevated); color:var(--text-muted);">@t.Category</span>
+                        </div>
+
+                        <a href="/thread/@t.Id"
+                               class="block text-sm font-semibold leading-snug hover:underline decoration-[var(--border-focus)] mb-1.5"
+                               style="color:var(--text-primary);">
+                            @t.Title
+                        </a>
+
+                        <div class="flex flex-wrap items-center gap-3 text-xs" style="color:var(--text-muted);">
+                            <span>@t.Author</span>
+                            <span>@t.CreatedAt</span>
+                            <span>💬 @t.Replies</span>
+                            <span>👁 @t.Views</span>
+                            <span>❤️ @t.Likes</span>
+                        </div>
+
+                    </div>
+                </div>
+            }
+
+        </div>
+
+        <div class="hidden lg:flex flex-col gap-3 w-52 shrink-0">
+
+            <luan-card padding="sm" radius="sm" title="Chủ đề">
+                <div class="flex flex-col gap-0.5 -mx-1">
+                    @foreach (var c in categories)
+                    {
+                        <a href="#"
+                               class="flex items-center justify-between rounded-[var(--radius-sm)] px-3 py-1.5 text-sm transition-colors hover:bg-[var(--bg-elevated)]"
+                               style="color:var(--text-secondary);">
+                            <span>@c.Name</span>
+                            @if (c.Count > 0)
+                            {
+                                <span class="text-xs tabular-nums" style="color:var(--text-muted);">@c.Count</span>
+                            }
+                        </a>
+                    }
+                </div>
+            </luan-card>
+
+            <luan-card padding="sm" radius="sm" title="Đang online">
+                <div class="flex flex-wrap gap-1.5">
+                    @foreach (var u in new[] { "john_doe", "anna_dev", "techguy", "css_nerd", "devops_le" })
+                    {
+                        <div class="relative flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold text-white"
+                             style="background:var(--accent-blue-dk);" title="@u">
+                            @u[0].ToString().ToUpper()
+                            <span class="absolute bottom-0 right-0 h-2 w-2 rounded-full border border-[var(--bg-card)]"
+                                  style="background:var(--accent-green);"></span>
+                        </div>
+                    }
+                    <div class="flex h-7 items-center px-2 text-xs rounded-full"
+                         style="background:var(--bg-elevated); color:var(--text-muted);">+33</div>
+                </div>
+            </luan-card>
+
+        </div>
+    </div>
 </div>

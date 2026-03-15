@@ -1,5 +1,5 @@
-// Data/DatabaseSeeder.cs
 using Microsoft.EntityFrameworkCore;
+using BCrypt.Net;
 using vlf_4rum.Data;
 using Vlf4rum.Constants;
 using Vlf4rum.Models;
@@ -10,11 +10,20 @@ namespace Vlf4rum.Data
     {
         public static async Task SeedAsync(AppDbContext db)
         {
-            await SeedRolesAsync(db);
-            await SeedPermissionsAsync(db);
-            await SeedRolePermissionsAsync(db);
+            if (!await db.Roles.AnyAsync())
+                await SeedRolesAsync(db);
+
+            if (!await db.Permissions.AnyAsync())
+                await SeedPermissionsAsync(db);
+
+            if (!await db.RolePermissions.AnyAsync())
+                await SeedRolePermissionsAsync(db);
+
+            if (!await db.Users.AnyAsync())
+                await SeedAdminUserAsync(db);
         }
 
+        // ── Roles ───────────────────────────────────────────
         private static async Task SeedRolesAsync(AppDbContext db)
         {
             var defined = new List<(string Name, string Desc)>
@@ -33,6 +42,7 @@ namespace Vlf4rum.Data
             await db.SaveChangesAsync();
         }
 
+        // ── Permissions ─────────────────────────────────────
         private static async Task SeedPermissionsAsync(AppDbContext db)
         {
             var defined = typeof(AppPermissions)
@@ -50,6 +60,7 @@ namespace Vlf4rum.Data
             await db.SaveChangesAsync();
         }
 
+        // ── RolePermissions ─────────────────────────────────
         private static async Task SeedRolePermissionsAsync(AppDbContext db)
         {
             var adminRole = await db.Roles.FirstAsync(r => r.Name == AppRoles.Admin);
@@ -58,10 +69,10 @@ namespace Vlf4rum.Data
 
             var allPerms = await db.Permissions.ToListAsync();
 
-            // ── Admin: tất cả permissions ─────────────────────
+            // Admin = tất cả permission
             await GrantAsync(db, adminRole.Id, allPerms.Select(p => p.Name).ToArray(), allPerms);
 
-            // ── Moderator ─────────────────────────────────────
+            // Moderator
             await GrantAsync(db, modRole.Id, new[]
             {
                 AppPermissions.Thread.View,
@@ -105,7 +116,7 @@ namespace Vlf4rum.Data
                 AppPermissions.Notification.Receive,
             }, allPerms);
 
-            // ── Member ────────────────────────────────────────
+            // Member
             await GrantAsync(db, memberRole.Id, new[]
             {
                 AppPermissions.Thread.View,
@@ -138,7 +149,36 @@ namespace Vlf4rum.Data
             await db.SaveChangesAsync();
         }
 
-        // ── Helper ────────────────────────────────────────────
+        // ── Admin user ──────────────────────────────────────
+        private static async Task SeedAdminUserAsync(AppDbContext db)
+        {
+            if (!await db.Users.AnyAsync())
+            {
+                var adminRole = await db.Roles.FirstAsync(r => r.Name == AppRoles.Admin);
+
+                var admin = new User
+                {
+                    Username = "luan",
+                    Email = "admin@vlf4rum.com",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("luan"),
+                    IsActive = true,
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                db.Users.Add(admin);
+                await db.SaveChangesAsync();
+
+                db.UserRoles.Add(new UserRole
+                {
+                    UserId = admin.Id,
+                    RoleId = adminRole.Id
+                });
+
+                await db.SaveChangesAsync();
+            }
+        }
+
+        // ── Helper ──────────────────────────────────────────
         private static async Task GrantAsync(
             AppDbContext db,
             int roleId,

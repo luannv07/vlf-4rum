@@ -35,7 +35,21 @@
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
+
 <body>
+    <div id="toast-container"
+         class="fixed top-16 right-4 z-[9999] flex flex-col gap-2 items-end">
+        @{
+            var variant = (TempData["Toast.Variant"] ?? ViewData["Toast.Variant"])?.ToString() ?? "info";
+            var message = (TempData["Toast.Message"] ?? ViewData["Toast.Message"])?.ToString();
+            var title   = (TempData["Toast.Title"]   ?? ViewData["Toast.Title"])?.ToString();
+        }
+
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <luan-toast variant="@variant" message="@message" title="@title" />
+        }
+    </div>
 
     @await Html.PartialAsync("_Navbar")
 
@@ -43,7 +57,7 @@
         @RenderBody()
     </main>
 
-    <script src="~/js/app.js" asp-append-version="true"></script>
+    <script type="module" src="~/js/app.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 
