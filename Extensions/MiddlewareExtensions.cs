@@ -1,3 +1,5 @@
+using VlfForum.Middleware;
+
 public static class MiddlewareExtensions
 {
     public static IApplicationBuilder UseGlobalException(

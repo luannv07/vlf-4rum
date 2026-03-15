@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using vlf_4rum.Data;
+using Vlf4rum.Data;
 using VlfForum.Extensions;
 using VlfForum.Middleware;
 using VlfForum.Services.Implementations;
@@ -42,6 +43,14 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.Migrate();
+}
+
+/* AUTO SEED ADMIN ACCOUNT (NOW) IF NOT EXIST */
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    DbSeeder.Seed(context);
 }
 
 app.Run();
